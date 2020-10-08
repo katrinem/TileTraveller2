@@ -6,6 +6,8 @@ NORTH = 'n'
 EAST = 'e'
 SOUTH = 's'
 WEST = 'w'
+YES = 'y'
+NO = 'n'
 
 def move(direction, col, row):
     ''' Returns updated col, row given the direction '''
@@ -64,8 +66,8 @@ def play_one_move(col, row, valid_directions):
     ''' Plays one move of the game
         Return if victory has been obtained and updated col,row '''
     victory = False
-    direction = input("Direction: ")
-    direction = direction.lower()
+    direction = random.choice([NORTH, EAST, SOUTH, WEST])
+    print("Direction:", direction)
     
     pull = False
     if not direction in valid_directions:
@@ -79,8 +81,9 @@ def play_one_move(col, row, valid_directions):
 
 def pull_lever():
     '''Offers user to pull a lever. Returns True if yes, False otherwise.'''
-    pull = input('Pull a lever (y/n): ')
-    if pull.lower() == 'y':
+    pull = random.choice([YES, NO])
+    print('Pull a lever (y/n):', pull )
+    if pull == YES:
         return True
     else:
         return False
@@ -90,6 +93,8 @@ def main():
     row = 1
     col = 1
     coins = 0
+    moves = 0
+
     while not victory:
         valid_directions = find_directions(col, row)
         print_directions(valid_directions)
@@ -97,7 +102,8 @@ def main():
         if plus1coin:
             coins += 1
             print('You received 1 coin, your total is now {}.'.format(coins))
-    print("Victory! Total coins {}.".format(coins))
+        moves += 1
+    print("Victory! Total coins {}. Moves {}.".format(coins,moves))
 
 def play_game():
     again = input('Play again (y/n): ')
@@ -107,7 +113,12 @@ def play_game():
         return False
 
 
+
+
 # The main program starts here
+import random
+the_seed = int(input("Input seed: "))
+random.seed(the_seed)
 main()
 play_answer = play_game()
 while play_answer:
@@ -115,3 +126,4 @@ while play_answer:
         break
     main()
     play_answer = play_game()
+
